@@ -29,7 +29,6 @@ char **split_line(char *line)
   p=strtok(line," \n\t\r\a");
   while(p!=NULL)
   {
-    //printf("%d\n",pos);
     tokens[pos++]=p;
     p=strtok(NULL," \n\t\r\a");
     if(pos>=size)

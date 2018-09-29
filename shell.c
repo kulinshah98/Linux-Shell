@@ -12,15 +12,10 @@ void handler_sigint(int sig_type)
   if(flag==0)
   {
     flag=1;
-  //  printf("\n");
-  //  printshellprompt();
   }
   printf("\n");
   printshellprompt();
-  //printf("\n");
   signal(SIGINT,handler_sigint);
-  //printf("\n");
-  //printshellprompt();
 }
 
 char **splitline_semicolon(char *line)
@@ -56,13 +51,11 @@ int main()
   char *p;
   printshellprompt();
   readaline();
-  //printf("%s\n",curline);
   semicolon=splitline_semicolon(curline);
   p=semicolon[0];
   i=1;
   while(p!=NULL)
   {
-    //printf("%s\n",p );
     pipline=0;
     for(k=0;k<strlen(p);k++)
     {
@@ -72,20 +65,17 @@ int main()
         break;
       }
     }
-  //  printf("%s\n",p );
     if(pipline==0)
     {
-    //  printf("%s\n",p );
       if(p[strlen(p)-1]=='&')
       {
         tokens=split_line(p);
-          flag=executebackground(tokens);
-      //    printf("%s 333dfas\n",name_job[glob_it-1]);
+        flag=executebackground(tokens);
       }
       else
       {
         tokens=split_line(p);
-          flag=executecommand(tokens);
+        flag=executecommand(tokens);
       }
     }
     else
@@ -104,7 +94,6 @@ int main()
     i=1;
     while(p!=NULL)
     {
-    //  printf("%d\n",glob_it);
       pipline=0;
       for(k=0;k<strlen(p);k++)
       {
@@ -114,30 +103,24 @@ int main()
           break;
         }
       }
-      //printf("%s\n",p );
       if(pipline==0)
       {
-      //  printf("%s\n",p );
         if(p[strlen(p)-1]=='&')
         {
           tokens=split_line(p);
-            flag=executebackground(tokens);
-        //    printf("*$#%d\n",glob_it);
-          //  printf("%s 333dfas\n",name_job[glob_it-1]);
+          flag=executebackground(tokens);
         }
         else
         {
-    //      printf("%s 333dfas\n",name_job[glob_it-1]);
           tokens=split_line(p);
-            flag=executecommand(tokens);
-      //      printf("%s 333dfas\n",name_job[glob_it-1]);
+          flag=executecommand(tokens);
         }
       }
       else
       {
         implementpipe(p);
       }
-        p=semicolon[i++];
+      p=semicolon[i++];
     }
   }
   return 0;

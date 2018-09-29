@@ -43,7 +43,6 @@ void printshellprompt()
       break;
     }
   }
-  //printf("**%d %d**",strlen(home),strlen(curdir));
   if(flag==1)
   {
     curdir[0]='~';
@@ -53,7 +52,6 @@ void printshellprompt()
       curdir[i-strlen(home)+1]=curdir[i];
     }
     curdir[i]='\0';
-//    printf("%d",i);
     for(i=i;i<=strlen(curdir);i++)
     {
       curdir[i-strlen(home)+1]='\0';

@@ -2,6 +2,12 @@
 
 int execute_cd(char **tokens)
 {
+  /*
+  Executes cd command.
+  Checks whether correct directory is given.
+  If correct directory name is given, shell will go in the directory
+  otherwise gives appropriate error.
+  */
   int tmp;
   if(tokens[1]==NULL)
   {
@@ -29,11 +35,17 @@ int execute_help(char **tokens)
 
 int execute_quit(char **tokens)
 {
+  /*
+  Ends shell.
+  */
   return 0;
 }
 
 int execute_jobs(char **tokens)
 {
+  /*
+  List all current jobs, it's name and it's process id
+  */
   int i;
   printf("%d\n",glob_it);
   for(i=0;i<glob_it;i++)
@@ -47,7 +59,9 @@ int execute_jobs(char **tokens)
 
 int execute_pwd(char **tokens)
 {
-  //printf("88\n");
+    /*
+    Executes pwd command and prints current working directory.
+    */
     char *t;
     char c[1005];
     t=getcwd(c,520);
@@ -60,7 +74,9 @@ int execute_pwd(char **tokens)
 
 int execute_echo(char **tokens)
 {
-  //printf("%s\n",curline);
+  /*
+  Executes echo command and prints string after echo word.
+  */
   int i=1;
   while(tokens[i]!=NULL)
   {
@@ -83,14 +99,10 @@ int execut(char **tokens)
   else
   {
     pos=0;
-//    printf("%d\n",total);
     for(i=0;i<total;i++)
     {
-      //printf("%d %d\n",i,strcmp(command[i],tokens[0]));
-    //  printf("%s %s \n",command[i],tokens[0]);
       if(strcmp(command[i],tokens[0])==0)
       {
-    //    printf("88\n");
         return (*execute[i])(tokens);
       }
     }
@@ -101,7 +113,8 @@ int execut(char **tokens)
 
 int executebackground(char **tokens)
 {
-  //printf("background\n");
+  /*
+  */
   int pos,i,flag,pid,status;
   pid_t processid;
   flag=execut(tokens);
@@ -109,42 +122,32 @@ int executebackground(char **tokens)
   {
     return flag;
   }
+
   processid=fork();
-  //pid=getpid();
-//  printf("***\n\n");
   if(processid<0)
   {
     fprintf(stderr, "Error in fork process");
-    //perror("Error in fork process");
   }
+
   if(processid==0)
   {
-    //printf("%s\n",tokens[0]);
-    //printf("**%s\n",tokens[1]);
     pid=getpid();
     pid_job[glob_it]=pid;
-  //  name_job[glob_it]=tokens[0];
-    //name_job[glob_it]=tokens[0];
     glob_it++;
-    //printf("%d %d %s %s %s\n",glob_it,pid_job[glob_it-1],name_job[glob_it-1],tokens[0],tokens[1]);
-    //tokens[1]=NULL;
     flag=execvp(tokens[0],tokens);
-  //  printf("%d ---- %d\n",glob_it,flag);
     if(flag==-1)
     {
       fprintf(stderr, "Error in execvp process\n");
-  //    perror("Error in execvp process\n");
     }
   }
   wait(&status);
+
   pid_job[glob_it]=getpid();
   for(i=0;i<strlen(tokens[0]);i++)
   {
     name_job[glob_it][i]=tokens[0][i];
   }
-  //name_job[glob_it]=tokens[0];
   glob_it++;
-//  printf("****%d %d ---- %d %s %s\n",glob_it,pid,pid_job[glob_it-1],name_job[glob_it-1],tokens[0]);
   return 1;
 }
 
